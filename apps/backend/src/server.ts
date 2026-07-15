@@ -1,10 +1,18 @@
 import dotenv from "dotenv";
 import app from "./app";
+import logger from "./config/logger";
+import { database } from './config/prisma-db'
 
-dotenv.config();
+dotenv.config()
 
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+async function bootstrap() {
+  await database.connect()
+
+  app.listen(PORT, () => {
+    logger.info(`🚀 Server running on http://localhost:${PORT}`)
+  })
+}
+
+bootstrap()
