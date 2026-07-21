@@ -6,7 +6,7 @@ class DatabaseService {
 
   constructor() {
     this.prisma = new PrismaClient({
-      log: ['info', 'warn', 'error'],
+      log: ['info', 'warn', 'error']
     })
   }
 

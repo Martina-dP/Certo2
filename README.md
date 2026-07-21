@@ -1,8 +1,9 @@
 # Certo2
 
-## Stack 
+## Stack
 
 ### Frontend:
+
         Next.js
         TypeScript
         Tailwind CSS
@@ -13,6 +14,7 @@
         Axios
 
 ### Backend:
+
         Node.js
         Express
         TypeScript
@@ -22,14 +24,16 @@
         bcrypt
 
 ### Storage:
+
         Cloudinary
 
 ### Reports:
+
         pdf-lib
         ExcelJS
 
-
 ## Arquitectura
+
     Frontend (Next)
         ↓
     API REST

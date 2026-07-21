@@ -1,0 +1,26 @@
+model Customer {
+  id              String  @id @default(cuid())
+  companyId       String
+  firstName       String
+  lastName        String?
+  document        String?
+  email           String?
+  phone           String?
+  address         String?
+  city            String?
+  state           String?
+  country         String?
+  postalCode      String?
+  receiveEmail    Boolean @default(true)
+  receiveWhatsapp Boolean @default(false)
+  notes           String?
+  isActive        Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([document])
+}

@@ -1,0 +1,110 @@
+model Company {
+  id           String  @id @default(cuid())
+  businessName String // nombre que aparece en las facturas (razón social de la empresa)
+  tradeName    String? // es el nombre comercial
+  taxId        String? @unique
+  email        String?
+  phone        String?
+  address      String?
+  city         String?
+  state        String?
+  country      String?
+  postalCode   String?
+  logoUrl      String?
+  currency     String  @default("ARS")
+  timezone     String  @default("America/Argentina/Buenos_Aires")
+  isActive     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     User[]
+  roles     Role[]
+  customers Customer[]
+}
+
+model Customer {
+  id              String  @id @default(cuid())
+  companyId       String
+  firstName       String
+  lastName        String?
+  document        String?
+  email           String?
+  phone           String?
+  address         String?
+  city            String?
+  state           String?
+  country         String?
+  postalCode      String?
+  receiveEmail    Boolean @default(true)
+  receiveWhatsapp Boolean @default(false)
+  notes           String?
+  isActive        Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([document])
+}
+
+// inventoryMovement
+
+// paymentMethod.prisma
+
+// productImage
+
+//PurchaseItem
+model Role {
+  id          String   @id @default(cuid())
+  companyId   String
+  name        String
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users   User[]
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, name])
+}
+
+// SaleItem
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  companyId    String
+  roleId       String
+  firstName    String
+  lastName     String
+  email        String?
+  passwordHash String?
+  pinCode      String?
+  phone        String?
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+  role    Role    @relation(fields: [roleId], references: [id])
+
+  @@unique([companyId, email])
+  @@index([companyId])
+}
+
+// Admin y Supervisor: ingresan con email + contraseña.
+// Cajeros y vendedores: se identifican con un PIN dentro del sistema ya abierto.

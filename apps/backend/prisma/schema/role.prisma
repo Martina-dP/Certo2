@@ -1,0 +1,14 @@
+model Role {
+  id          String   @id @default(cuid())
+  companyId   String
+  name        String
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users   User[]
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, name])
+}

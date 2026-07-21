@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
-import app from "./app";
-import logger from "./config/logger";
+import dotenv from 'dotenv'
+import app from './app'
+import logger from './config/logger'
 import { database } from './config/prisma-db'
 
 dotenv.config()

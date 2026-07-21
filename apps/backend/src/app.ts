@@ -1,20 +1,20 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import morgan from "morgan";
+import express from 'express'
+import cors from 'cors'
+import helmet from 'helmet'
+import morgan from 'morgan'
 
-const app = express();
+const app = express()
 
-app.use(cors());
-app.use(helmet());
-app.use(morgan("dev"));
-app.use(express.json());
+app.use(cors())
+app.use(helmet())
+app.use(morgan('dev'))
+app.use(express.json())
 
-app.get("/health", (_, res) => {
+app.get('/health', (_, res) => {
   res.json({
-    status: "ok",
-    message: "Backend running 🚀"
-  });
-});
+    status: 'ok',
+    message: 'Backend running 🚀'
+  })
+})
 
-export default app;
+export default app

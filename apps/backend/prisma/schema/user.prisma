@@ -1,0 +1,25 @@
+model User {
+  id           String    @id @default(cuid())
+  companyId    String
+  roleId       String
+  firstName    String
+  lastName     String
+  email        String?
+  passwordHash String?
+  pinCode      String?
+  phone        String?
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+  role    Role    @relation(fields: [roleId], references: [id])
+
+  @@unique([companyId, email])
+  @@index([companyId])
+}
+
+// Admin y Supervisor: ingresan con email + contraseña.
+// Cajeros y vendedores: se identifican con un PIN dentro del sistema ya abierto.
