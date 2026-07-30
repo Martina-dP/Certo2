@@ -23,6 +23,8 @@
         JWT
         bcrypt
 
+    Repository Pattern + Dependency Injection + Generic Base Repository + Type-safe Profiles (Prisma)
+
 ### Storage:
 
         Cloudinary
@@ -34,14 +36,14 @@
 
 ## Arquitectura
 
-    Frontend (Next)
+    Frontend (Next)  ->    Interfaz de usuario y llamadas a la API.
         ↓
-    API REST
+    Infrastructure   ->    HTTP / Controllers (Adaptador de Entrada)
         ↓
-    Express
+    Application      ->    Use Cases / Services (Lógica de Aplicación)
         ↓
-    Services
+    Domain           ->    Entities & Repositories (Núcleo del Negocio)
         ↓
-    Repositories (Prisma)
+    Infrastructure   ->    Database / Prisma (Adaptador de Salida)
         ↓
-    PostgreSQL
+    PostgreSQL       ->    Almacena y recupera los datos de forma persistente.
