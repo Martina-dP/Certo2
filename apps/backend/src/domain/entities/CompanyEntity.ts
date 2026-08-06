@@ -1,4 +1,10 @@
-import { Company, Role, User } from '../../client'
+import { Company, Role, User, Tax } from '../../client'
+import RoleEntity from './RoleEntity'
+import UserEntity from './UserEntity'
+import TaxEntity from './TaxEntity'
+import { UserDto } from './UserEntity'
+import { RoleDto } from './RoleEntity'
+import { TaxDto } from './TaxEntity'
 
 export type CompanyDto = {
   id: string
@@ -16,6 +22,11 @@ export type CompanyDto = {
   currency: string
   timezone: string
   isActive: boolean
+
+  users: UserDto[]
+  roles: RoleDto[]
+  taxes: TaxDto[]
+
   createdAt: Date
   updatedAt: Date
 }
@@ -25,6 +36,7 @@ export default class CompanyEntity {
     private data: Company & {
       users?: User[]
       roles?: Role[]
+      taxes?: Tax[]
     }
   ) {}
 
@@ -96,8 +108,17 @@ export default class CompanyEntity {
     return this.data.updatedAt
   }
 
-  // get users(): Promise<BasicUserDataCompany[]> {
-  // }
+  get users(): UserEntity[] {
+    return (this.data.users ?? []).map((user) => new UserEntity(user))
+  }
+
+  get roles(): RoleEntity[] {
+    return (this.data.roles ?? []).map((role) => new RoleEntity(role))
+  }
+
+  get taxes(): TaxEntity[] {
+    return (this.data.taxes ?? []).map((tax) => new TaxEntity(tax))
+  }
 
   async toDto(): Promise<CompanyDto> {
     return {
@@ -116,6 +137,9 @@ export default class CompanyEntity {
       currency: this.data.currency,
       timezone: this.data.timezone,
       isActive: this.data.isActive,
+      users: await Promise.all(this.users.map((u) => u.toDto())),
+      roles: await Promise.all(this.roles.map((r) => r.toDto())),
+      taxes: await Promise.all(this.taxes.map((t) => t.toDto())),
       createdAt: this.data.createdAt,
       updatedAt: this.data.updatedAt
     }

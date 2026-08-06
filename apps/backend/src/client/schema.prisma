@@ -2,17 +2,17 @@ model Company {
   id           String  @id @default(cuid())
   businessName String // nombre que aparece en las facturas (razón social de la empresa)
   tradeName    String? // es el nombre comercial
-  taxId        String? @unique
+  taxId        String? @unique // Tax identification number (e.g. CUIT, NIF, VAT, EIN)
   email        String?
   phone        String?
   address      String?
   city         String?
   state        String?
-  country      String?
+  country      String // ISO 3166-1 alpha-2 country code (e.g. AR, ES, US)
   postalCode   String?
   logoUrl      String?
-  currency     String  @default("ARS")
-  timezone     String  @default("America/Argentina/Buenos_Aires")
+  currency     String  @default("ARS") // ISO 4217 currency code (e.g. ARS, USD, EUR)
+  timezone     String  @default("America/Argentina/Buenos_Aires") // IANA time zone (e.g. America/Argentina/Buenos_Aires, Europe/Madrid)
   isActive     Boolean @default(true)
 
   createdAt DateTime @default(now())
@@ -21,6 +21,7 @@ model Company {
   users     User[]
   roles     Role[]
   customers Customer[]
+  taxes     Tax[]
 }
 
 model Customer {
@@ -57,12 +58,13 @@ model Customer {
 // productImage
 
 //PurchaseItem
+
 model Role {
   id          String   @id @default(cuid())
   companyId   String
   name        String
   description String?
-  isSystem    Boolean  @default(false)
+  isSystem    Boolean  @default(false) // Indicates whether this role is a predefined company role created by the system.
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -73,6 +75,7 @@ model Role {
 }
 
 // SaleItem
+
 generator client {
   provider = "prisma-client-js"
   output   = "../../src/client"
@@ -81,6 +84,22 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Tax {
+  id        String   @id @default(cuid())
+  companyId String
+  name      String // Tax name (e.g. IVA 21%, VAT, Sales Tax)
+  rate      Decimal  @db.Decimal(5, 2) // Tax rate percentage (e.g. 21.00, 10.50, 8.25)
+  isDefault Boolean  @default(false) // Indicates whether this is the default tax for the company.
+  isActive  Boolean  @default(true) // Indicates whether the tax is active.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, name])
+  @@index([companyId])
 }
 
 model User {

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import app from './app'
 import logger from './config/logger'
-import { database } from './interfaces/http/database/prisma-db'
+import { database } from './interfaces/database/prisma-db'
 
 dotenv.config()
 

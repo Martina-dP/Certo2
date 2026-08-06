@@ -168,6 +168,17 @@ exports.Prisma.RoleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 }
 
+exports.Prisma.TaxScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  rate: 'rate',
+  isDefault: 'isDefault',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+}
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -203,6 +214,7 @@ exports.Prisma.ModelName = {
   Company: 'Company',
   Customer: 'Customer',
   Role: 'Role',
+  Tax: 'Tax',
   User: 'User'
 }
 

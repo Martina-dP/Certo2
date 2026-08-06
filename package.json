@@ -3,6 +3,7 @@
     "format": "prettier --write . && prisma format"
   },
   "devDependencies": {
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2"
   }
 }
