@@ -3,7 +3,7 @@ model Role {
   companyId   String
   name        String
   description String?
-  isSystem    Boolean  @default(false)   // Indicates whether this role is a predefined company role created by the system.
+  isSystem    Boolean  @default(false) // Indicates whether this role is a predefined company role created by the system.
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
